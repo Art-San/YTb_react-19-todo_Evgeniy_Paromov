@@ -1,4 +1,17 @@
 {
-  "tasks": {},
-  "users": {}
+  "tasks": [],
+  "users": [
+    {
+      "id": "d66b7f23-7052-4d23-9ef6-eb438f08e70c",
+      "email": ""
+    },
+    {
+      "id": "c527f68f-2931-4aa6-9d69-847e17087991",
+      "email": "qwe@wer.xn--c1an"
+    },
+    {
+      "id": "7d5a2fe3-922d-46b8-9512-60a30c88beeb",
+      "email": ""
+    }
+  ]
 }
