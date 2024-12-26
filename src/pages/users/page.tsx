@@ -1,57 +1,44 @@
-import { use, useState, Suspense, useTransition, startTransition } from 'react'
-import { User, createUser, deleteUser, fetchUsers } from '../../shared/api'
-
-const defaultUsersPromises = fetchUsers()
+import { use, Suspense, useActionState } from 'react'
+import { User } from '../../shared/api'
+import { ErrorBoundary } from 'react-error-boundary'
+import { createUserAction, deleteUserAction } from './actions'
+import { useUsers } from './use-users'
 
 export function UsersPage() {
-  const [usersPromise, setUsersPromises] = useState(defaultUsersPromises)
-  const refetchUser = () => startTransition(() => setUsersPromises(fetchUsers))
-
-  // Первый вар
-  // const refetchUser = () => {
-  //   setUsersPromises(fetchUsers)
-  // }
-
+  const [usersPromise, refetchUser] = useUsers()
   return (
     <main className=" container mx-auto p-4 pt-10 flex flex-col gap-4">
       <div className=" text-3xl font-bold underline mb-10">UserPage</div>
       <CreateUserForm refetchUser={refetchUser} />
-      <Suspense fallback={'Loading...'}>
-        <UsersList usersPromise={usersPromise} refetchUser={refetchUser} />
-      </Suspense>
+      <ErrorBoundary
+        fallbackRender={(e) => (
+          <div className=" text-red-300">
+            Something went wrong: {JSON.stringify(e)}{' '}
+          </div>
+        )}
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          <UsersList usersPromise={usersPromise} refetchUser={refetchUser} />
+        </Suspense>
+      </ErrorBoundary>
     </main>
   )
 }
 
 export function CreateUserForm({ refetchUser }: { refetchUser: () => void }) {
-  const [email, setEmail] = useState('')
-  const [isPending, startTransition] = useTransition()
+  const [state, dispatch, isPending] = useActionState(
+    createUserAction({ refetchUser }),
+    { email: '' }
+  )
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    startTransition(async () => {
-      await createUser({
-        email,
-        id: crypto.randomUUID()
-      })
-      refetchUser()
-      setEmail('')
-
-      // Первый вар
-      // startTransition(() => {
-      //   refetchUser()
-      //   setEmail('')
-      // })
-    })
-  }
   return (
-    <form className=" flex gap-2" onSubmit={handleSubmit}>
+    <form className=" flex gap-2" action={dispatch}>
       <input
         type="email"
+        name="email"
         className=" border p-2 rounded"
-        value={email}
         disabled={isPending}
-        onChange={(e) => setEmail(e.target.value)}
+        defaultValue={state.email}
         placeholder="введите email"
       />
 
@@ -61,6 +48,7 @@ export function CreateUserForm({ refetchUser }: { refetchUser: () => void }) {
       >
         {'add'}
       </button>
+      {state.error && <div className=" text-red-400">{state.error}</div>}
     </form>
   )
 }
@@ -73,7 +61,7 @@ export function UsersList({
   refetchUser: () => void
 }) {
   const users = use(usersPromise)
-  // console.log(123, users)
+
   return (
     <div className=" flex flex-col">
       {users.map((user) => (
@@ -90,34 +78,23 @@ export function UserCard({
   user: User
   refetchUser: () => void
 }) {
-  const [isPending, startTransition] = useTransition()
-
-  const handleDel = async (id: string) => {
-    startTransition(async () => {
-      await deleteUser(id)
-      refetchUser()
-    })
-  }
-
-  // Первый вар
-  // const handleDel = async (id: string) => {
-  //   startTransition(async () => {
-  //     await deleteUser(id)
-  //     startTransition(() => refetchUser())
-  //   })
-  // }
+  const [state, handleDelete, isPending] = useActionState(
+    deleteUserAction({ refetchUser, id: user.id }),
+    {}
+  )
 
   return (
     <div className=" border p-2 m-2 rounded bg-gray-100 flex gap-2">
       {user.email}
-      <button
-        type="button"
-        onClick={() => handleDel(user.id)}
-        disabled={isPending}
-        className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
-      >
-        delete
-      </button>
+      <form action={handleDelete} className=" ml-auto">
+        <button
+          className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
+          disabled={isPending}
+        >
+          Delete
+          {state.error && <div className=" text-red-400">{state.error}</div>}
+        </button>
+      </form>
     </div>
   )
 }
