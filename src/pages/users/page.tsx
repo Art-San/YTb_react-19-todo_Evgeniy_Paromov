@@ -1,11 +1,12 @@
-import { use, Suspense, useActionState } from 'react'
+import { useOptimistic, Suspense, useActionState, useRef } from 'react'
 import { User } from '../../shared/api'
 import { ErrorBoundary } from 'react-error-boundary'
 import { CreateUserAction, DeleteUserAction } from './actions'
 import { useUsers } from './use-users'
+import { Link } from 'react-router'
 
 export function UsersPage() {
-  const { usersPromise, createUserAction, deleteUserAction } = useUsers()
+  const { useUsersList, createUserAction, deleteUserAction } = useUsers()
   return (
     <main className=" container mx-auto p-4 pt-10 flex flex-col gap-4">
       <div className=" text-3xl font-bold underline mb-10">UserPage</div>
@@ -19,7 +20,7 @@ export function UsersPage() {
       >
         <Suspense fallback={<div>Loading...</div>}>
           <UsersList
-            usersPromise={usersPromise}
+            useUsersList={useUsersList}
             deleteUserAction={deleteUserAction}
           />
         </Suspense>
@@ -33,40 +34,49 @@ export function CreateUserForm({
 }: {
   createUserAction: CreateUserAction
 }) {
-  const [state, dispatch, isPending] = useActionState(createUserAction, {
+  const [state, dispatch] = useActionState(createUserAction, {
     email: ''
   })
 
+  const [optimisticState, setOptimisticState] = useOptimistic(state)
+  const form = useRef<HTMLFormElement>(null)
+
   return (
-    <form className=" flex gap-2" action={dispatch}>
+    <form
+      className=" flex gap-2"
+      ref={form}
+      action={(formData: FormData) => {
+        setOptimisticState({ email: '' })
+        dispatch(formData)
+        form.current?.reset()
+      }}
+    >
       <input
         type="email"
         name="email"
         className=" border p-2 rounded"
-        disabled={isPending}
-        defaultValue={state.email}
+        defaultValue={optimisticState.email}
         placeholder="введите email"
       />
 
-      <button
-        disabled={isPending}
-        className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400"
-      >
+      <button className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400">
         {'add'}
       </button>
-      {state.error && <div className=" text-red-400">{state.error}</div>}
+      {optimisticState.error && (
+        <div className=" text-red-400">{optimisticState.error}</div>
+      )}
     </form>
   )
 }
 
 export function UsersList({
-  usersPromise,
-  deleteUserAction
+  deleteUserAction,
+  useUsersList
 }: {
-  usersPromise: Promise<User[]>
+  useUsersList: () => User[]
   deleteUserAction: DeleteUserAction
 }) {
-  const users = use(usersPromise)
+  const users = useUsersList()
 
   return (
     <div className=" flex flex-col">
@@ -88,19 +98,25 @@ export function UserCard({
   user: User
   deleteUserAction: DeleteUserAction
 }) {
-  const [state, handleDelete, isPending] = useActionState(deleteUserAction, {})
+  const [state, handleDelete] = useActionState(deleteUserAction, {})
 
   return (
     <div className=" border p-2 m-2 rounded bg-gray-100 flex gap-2">
       {user.email}
-      <form action={handleDelete} className=" ml-auto">
+      <form className="ml-auto">
         <input type="hidden" name="id" value={user.id} />
+        <Link
+          to={`/${user.id}/tasks`}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
+        >
+          Tasks
+        </Link>
         <button
-          className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
-          disabled={isPending}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
+          formAction={handleDelete}
         >
           Delete
-          {state.error && <div className=" text-red-400">{state.error}</div>}
+          {state.error && <div className="text-red-500">{state.error}</div>}
         </button>
       </form>
     </div>
