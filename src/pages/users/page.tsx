@@ -1,15 +1,15 @@
 import { use, Suspense, useActionState } from 'react'
 import { User } from '../../shared/api'
 import { ErrorBoundary } from 'react-error-boundary'
-import { createUserAction, deleteUserAction } from './actions'
+import { CreateUserAction, DeleteUserAction } from './actions'
 import { useUsers } from './use-users'
 
 export function UsersPage() {
-  const [usersPromise, refetchUser] = useUsers()
+  const { usersPromise, createUserAction, deleteUserAction } = useUsers()
   return (
     <main className=" container mx-auto p-4 pt-10 flex flex-col gap-4">
       <div className=" text-3xl font-bold underline mb-10">UserPage</div>
-      <CreateUserForm refetchUser={refetchUser} />
+      <CreateUserForm createUserAction={createUserAction} />
       <ErrorBoundary
         fallbackRender={(e) => (
           <div className=" text-red-300">
@@ -18,18 +18,24 @@ export function UsersPage() {
         )}
       >
         <Suspense fallback={<div>Loading...</div>}>
-          <UsersList usersPromise={usersPromise} refetchUser={refetchUser} />
+          <UsersList
+            usersPromise={usersPromise}
+            deleteUserAction={deleteUserAction}
+          />
         </Suspense>
       </ErrorBoundary>
     </main>
   )
 }
 
-export function CreateUserForm({ refetchUser }: { refetchUser: () => void }) {
-  const [state, dispatch, isPending] = useActionState(
-    createUserAction({ refetchUser }),
-    { email: '' }
-  )
+export function CreateUserForm({
+  createUserAction
+}: {
+  createUserAction: CreateUserAction
+}) {
+  const [state, dispatch, isPending] = useActionState(createUserAction, {
+    email: ''
+  })
 
   return (
     <form className=" flex gap-2" action={dispatch}>
@@ -55,17 +61,21 @@ export function CreateUserForm({ refetchUser }: { refetchUser: () => void }) {
 
 export function UsersList({
   usersPromise,
-  refetchUser
+  deleteUserAction
 }: {
   usersPromise: Promise<User[]>
-  refetchUser: () => void
+  deleteUserAction: DeleteUserAction
 }) {
   const users = use(usersPromise)
 
   return (
     <div className=" flex flex-col">
       {users.map((user) => (
-        <UserCard key={user.id} user={user} refetchUser={refetchUser} />
+        <UserCard
+          key={user.id}
+          user={user}
+          deleteUserAction={deleteUserAction}
+        />
       ))}
     </div>
   )
@@ -73,20 +83,18 @@ export function UsersList({
 
 export function UserCard({
   user,
-  refetchUser
+  deleteUserAction
 }: {
   user: User
-  refetchUser: () => void
+  deleteUserAction: DeleteUserAction
 }) {
-  const [state, handleDelete, isPending] = useActionState(
-    deleteUserAction({ refetchUser, id: user.id }),
-    {}
-  )
+  const [state, handleDelete, isPending] = useActionState(deleteUserAction, {})
 
   return (
     <div className=" border p-2 m-2 rounded bg-gray-100 flex gap-2">
       {user.email}
       <form action={handleDelete} className=" ml-auto">
+        <input type="hidden" name="id" value={user.id} />
         <button
           className=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-auto disabled:bg-gray-400"
           disabled={isPending}

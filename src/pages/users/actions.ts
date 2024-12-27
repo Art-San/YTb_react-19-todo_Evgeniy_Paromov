@@ -5,12 +5,17 @@ export type CreateActionState = {
   email: string
 }
 
-export function createUserAction({ refetchUser }: { refetchUser: () => void }) {
-  return async (
-    prevState: CreateActionState,
-    // _: CreateActionState,
-    formData: FormData
-  ): Promise<CreateActionState> => {
+export type CreateUserAction = (
+  state: CreateActionState,
+  formData: FormData
+) => Promise<CreateActionState>
+
+export function createUserAction({
+  refetchUsers
+}: {
+  refetchUsers: () => void
+}): CreateUserAction {
+  return async (_, formData) => {
     const email = formData.get('email') as string
 
     if (email === 'Art@San.ru') {
@@ -19,20 +24,24 @@ export function createUserAction({ refetchUser }: { refetchUser: () => void }) {
         email
       }
     }
+
     try {
-      await createUser({
-        email: email,
+      const user = {
+        email,
         id: crypto.randomUUID()
-      })
-      refetchUser()
+      }
+
+      await createUser(user)
+
+      refetchUsers()
 
       return {
         email: ''
       }
-    } catch (error) {
+    } catch {
       return {
         email,
-        error: `Error while creating user: ${error ? error : 'xz'}`
+        error: 'Error while creating user'
       }
     }
   }
@@ -42,21 +51,25 @@ type DeleteUserActionState = {
   error?: string
 }
 
+export type DeleteUserAction = (
+  state: DeleteUserActionState,
+  formData: FormData
+) => Promise<DeleteUserActionState>
+
 export function deleteUserAction({
-  refetchUser,
-  id
+  refetchUsers
 }: {
-  refetchUser: () => void
-  id: string
-}) {
-  return async (): Promise<DeleteUserActionState> => {
+  refetchUsers: () => void
+}): DeleteUserAction {
+  return async (_, formData) => {
+    const id = formData.get('id') as string
     try {
       await deleteUser(id)
-      refetchUser()
+      refetchUsers()
       return {}
-    } catch (error) {
+    } catch {
       return {
-        error: `Error while deleting user: ${error ? error : 'xz'}`
+        error: 'Error while deleting user'
       }
     }
   }
