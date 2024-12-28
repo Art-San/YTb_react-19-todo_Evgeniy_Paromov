@@ -73,7 +73,7 @@ export type PaginatedResponse<T> = {
 
 export function fetchTasks({
   page = 1,
-  per_page = 10,
+  per_page = 5,
   sort = { createdAt: 'asc' },
   filters
 }: {

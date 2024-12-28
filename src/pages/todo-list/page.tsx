@@ -98,7 +98,7 @@ function Pagination<T>({
   const { last, page, first, next, prev, pages } = use(tasksPaginated)
 
   const handlePageChange = (page: number) => () => {
-    console.log(page)
+    console.log(34, page)
     startTransition(() => onPageChange?.(page))
   }
   return (
