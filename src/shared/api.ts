@@ -27,7 +27,14 @@
 
 export type User = {
   id: string
+  name: string
   email: string
+  sex: string
+  profession: string
+  qualities: string[]
+  completedMeetings: number
+  rete: number
+  bookmark: boolean
 }
 
 export async function fetchUsers() {

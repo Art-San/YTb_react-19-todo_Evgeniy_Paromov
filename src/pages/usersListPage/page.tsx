@@ -84,6 +84,7 @@ export function UsersListPage() {
     //       )
     //     : users
 
+    const count = users.length
     // const count = filteredUsers.length
 
     // const sortedUsers = _.orderBy(
@@ -100,7 +101,7 @@ export function UsersListPage() {
 
     return (
       <div className="">
-        <h1 className=" text-red">Ntrcn</h1>
+        <h1 className=" p-3 text-red-300">Ntrcn</h1>
         {/* {professions && (
           <div className="d-flex flex-column flex-shrink-0 p-3">
             <GroupList
