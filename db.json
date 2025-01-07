@@ -1,4 +1,50 @@
 {
+  "professions": [
+    { "id": "67rdca3eeb7f6fgeed471818", "name": "Доктор" },
+    { "id": "67rdca3eeb7f6fgeed471820", "name": "Официант" },
+    { "id": "67rdca3eeb7f6fgeed471814", "name": "Физик" },
+    { "id": "67rdca3eeb7f6fgeed471822", "name": "Инженер" },
+    { "id": "67rdca3eeb7f6fgeed471824", "name": "Актер" },
+    { "id": "67rdca3eeb7f6fgeed471829", "name": "Повар" }
+  ],
+  "qualities": [
+    {
+      "id": "67rdca3eeb7f6fgeed471198",
+      "key": "tedious",
+      "name": "Нудила",
+      "color": "primary"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471100",
+      "key": "strange",
+      "name": "Странный",
+      "color": "secondary"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471101",
+      "key": "buller",
+      "name": "Троль",
+      "color": "success"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471156",
+      "key": "alcoholic",
+      "name": "Алкоголик",
+      "color": "danger"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471102",
+      "key": "handsome",
+      "name": "Красавчик",
+      "color": "info"
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471103",
+      "key": "uncertain",
+      "name": "Неуверенный",
+      "color": "dark"
+    }
+  ],
   "tasks": [
     {
       "id": "9f6b5277-2f5b-4dfd-a769-c36103709508",
@@ -6,77 +52,148 @@
       "done": false,
       "userId": "e192a4ad-22a0-4343-923d-e31872699874",
       "title": "dfff"
-    },
-    {
-      "id": "989ef348-db95-4915-b198-a1366edcbc43",
-      "createdAt": 1735316676841,
-      "done": false,
-      "userId": "e192a4ad-22a0-4343-923d-e31872699874",
-      "title": "ffdre"
-    },
-    {
-      "id": "87321ba4-4b6d-4ebf-a39e-2047c4563436",
-      "createdAt": 1735385226079,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "контент"
-    },
-    {
-      "id": "b3545fcf-cd6e-4b9b-8613-cfd4698cc387",
-      "createdAt": 1735385239165,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "много"
-    },
-    {
-      "id": "a1dc39d4-60f6-4d4a-abee-479b19297aca",
-      "createdAt": 1735385244222,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "всяки"
-    },
-    {
-      "id": "d3fbded5-8674-42ef-a312-28024b2e4748",
-      "createdAt": 1735385289184,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "много1"
-    },
-    {
-      "id": "214704bf-71ab-411a-8c11-c56d06c28409",
-      "createdAt": 1735385298893,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "много"
-    },
-    {
-      "id": "b8b80969-7465-4730-a150-4b8d0224db9d",
-      "createdAt": 1735385305974,
-      "done": false,
-      "userId": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "title": "много"
     }
   ],
   "users": [
     {
-      "id": "ef495eb5-f6f6-4209-a8b3-d84a3dc305e9",
-      "email": "art@san.ru"
+      "id": "67rdca3eeb7f6fgeed471815",
+      "name": "Джон Дориан",
+      "email": "johndorian@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471818",
+      "qualities": [
+        "67rdca3eeb7f6fgeed471198",
+        "67rdca3eeb7f6fgeed471103",
+        "67rdca3eeb7f6fgeed471100"
+      ],
+      "completedMeetings": 36,
+      "rate": 2.5,
+      "bookmark": false
     },
     {
-      "id": "a6834d98-afdf-4245-9a4a-1f9d08fbd9b8",
-      "email": "top@pot.ru"
+      "id": "67rdca3eeb7f6fgeed471816",
+      "name": "Кокс",
+      "email": "koks@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471818",
+      "qualities": [
+        "67rdca3eeb7f6fgeed471101",
+        "67rdca3eeb7f6fgeed471102",
+        "67rdca3eeb7f6fgeed471156"
+      ],
+      "completedMeetings": 15,
+      "rate": 2.5,
+      "bookmark": false
     },
     {
-      "id": "bd5020d0-4a5f-4c72-934f-8ebbf801e50a",
-      "email": "art@san.ru"
+      "id": "67rdca3eeb7f6fgeed471817",
+      "name": "Боб Келсо",
+      "email": "bobkelso@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471818",
+      "qualities": ["67rdca3eeb7f6fgeed471101"],
+      "completedMeetings": 247,
+      "rate": 3.5,
+      "bookmark": false
     },
     {
-      "id": "e192a4ad-22a0-4343-923d-e31872699874",
-      "email": "tert@wer.ru"
+      "id": "67rdca3eeb7f6fgeed471818",
+      "name": "Рэйчел Грин",
+      "email": "rachelgreene@fastcompany.ru",
+      "sex": "female",
+      "profession": "67rdca3eeb7f6fgeed471820",
+      "qualities": ["67rdca3eeb7f6fgeed471103"],
+      "completedMeetings": 148,
+      "rate": 3.5,
+      "bookmark": false
     },
     {
-      "id": "be7e3bc6-91f8-4e23-be82-bcf6cfb019bf",
-      "email": "dff@wer.ru"
+      "id": "67rdca3eeb7f6fgeed471819",
+      "name": "Шелдон Купер",
+      "email": "sheldoncooper@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471814",
+      "qualities": ["67rdca3eeb7f6fgeed471100", "67rdca3eeb7f6fgeed471198"],
+      "completedMeetings": 37,
+      "rate": 4.6,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471820",
+      "name": "Леонард Хофстедтер",
+      "email": "leonardhofstedter@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471814",
+      "qualities": ["67rdca3eeb7f6fgeed471100", "67rdca3eeb7f6fgeed471103"],
+      "completedMeetings": 147,
+      "rate": 3.5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471821",
+      "name": "Говард Воловиц",
+      "email": "howardwolowitz@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471822",
+      "qualities": ["67rdca3eeb7f6fgeed471100", "67rdca3eeb7f6fgeed471198"],
+      "completedMeetings": 72,
+      "rate": 3.5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471822",
+      "name": "Никола Тесла",
+      "email": "nikolatesla@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471822",
+      "qualities": ["67rdca3eeb7f6fgeed471102"],
+      "completedMeetings": 72,
+      "rate": 5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471823",
+      "name": "Моника Геллер",
+      "email": "monicageller@fastcompany.ru",
+      "sex": "female",
+      "profession": "67rdca3eeb7f6fgeed471829",
+      "qualities": ["67rdca3eeb7f6fgeed471100", "67rdca3eeb7f6fgeed471103"],
+      "completedMeetings": 17,
+      "rate": 4.5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed471824",
+      "name": "Рататуй",
+      "email": "ratatouille@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471829",
+      "qualities": ["67rdca3eeb7f6fgeed471102", "67rdca3eeb7f6fgeed471101"],
+      "completedMeetings": 17,
+      "rate": 4.5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed47181f",
+      "name": "Джоуи Триббиани",
+      "email": "joeytribbiani@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471824",
+      "qualities": ["67rdca3eeb7f6fgeed471103", "67rdca3eeb7f6fgeed471100"],
+      "completedMeetings": 434,
+      "rate": 3.5,
+      "bookmark": false
+    },
+    {
+      "id": "67rdca3eeb7f6fgeed47181r",
+      "name": "Брэд Питт",
+      "email": "bradpitt@fastcompany.ru",
+      "sex": "male",
+      "profession": "67rdca3eeb7f6fgeed471824",
+      "qualities": ["67rdca3eeb7f6fgeed471102"],
+      "completedMeetings": 434,
+      "rate": 5,
+      "bookmark": false
     }
   ]
 }
